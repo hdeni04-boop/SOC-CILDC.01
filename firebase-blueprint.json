@@ -1,0 +1,95 @@
+{
+  "entities": {
+    "BreakSession": {
+      "title": "Break Session",
+      "description": "Records a worker's break session, tracking time out and time in.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the worker",
+          "maxLength": 100
+        },
+        "badgeId": {
+          "type": "string",
+          "description": "Worker's badge ID (Ops ID)",
+          "maxLength": 20
+        },
+        "initials": {
+          "type": "string",
+          "description": "Worker's initials",
+          "maxLength": 3
+        },
+        "gate": {
+          "type": "string",
+          "description": "Gate used for exit",
+          "maxLength": 50
+        },
+        "zone": {
+          "type": "string",
+          "description": "Work zone (e.g., Inbound, Outbound)",
+          "maxLength": 50
+        },
+        "sessionType": {
+          "type": "string",
+          "description": "Type of break (e.g., Makan Siang)",
+          "maxLength": 50
+        },
+        "timeOut": {
+          "type": "timestamp",
+          "description": "Server timestamp when the worker exited"
+        },
+        "timeIn": {
+          "type": "timestamp",
+          "description": "Server timestamp when the worker returned (null if still out)"
+        },
+        "limitMinutes": {
+          "type": "number",
+          "description": "Maximum allowed minutes for this break session"
+        },
+        "supervisor": {
+          "type": "string",
+          "description": "Supervisor's name",
+          "maxLength": 100
+        },
+        "extension": {
+          "type": "string",
+          "description": "Supervisor's extension",
+          "maxLength": 20
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Active", "Completed", "Force Resolved"],
+          "description": "Current status of the session"
+        },
+        "resolveReason": {
+          "type": "string",
+          "description": "Reason for force resolve if applicable",
+          "maxLength": 100
+        },
+        "resolveNote": {
+          "type": "string",
+          "description": "Note from supervisor for force resolve",
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "timestamp",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["name", "badgeId", "initials", "gate", "zone", "sessionType", "timeOut", "limitMinutes", "supervisor", "extension", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "break_sessions/{sessionId}": {
+      "schema": {
+        "$ref": "#/entities/BreakSession"
+      },
+      "description": "Collection of all break sessions for tracking overstay and live timers"
+    }
+  }
+}
